@@ -34,44 +34,33 @@ abstract class Strategy
 class BubbleSort : Strategy
 {
     public override void Sort(int[] array)
-
     {
         Console.WriteLine("\n\nBubbleSort");
-        for
-       (int i = 0; i < array.Length; i++)
-
+        for (int i = 0; i < array.Length; i++)
         {
-            for
-           (int j = array.Length - 1; j > i; j--)
-
+            for (int j = array.Length - 1; j > i; j--)
             {
                 if (array[j] < array[j - 1])
-
                 {
                     int temp = array[j];
                     array[j] = array[j - 1];
                     array[j - 1] = temp;
-
                 }
-
             }
-
         }
-
     }
 }
 class SelectionSort : Strategy
 {
     public override void Sort(int[] array)
-
     {
         Console.WriteLine("\nSelectionSort");
         for (int i = 0; i < array.Length - 1; i++)
         {
             int k = i;
             for (int j = i + 1; j < array.Length; j++)
-                if (array[k] > array[j])
-                    k = j;
+                if (array[k] > array[j]) { k = j; }
+                    
             if (k != i)
             {
                 int temp = array[k];

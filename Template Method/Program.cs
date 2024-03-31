@@ -1,41 +1,61 @@
-﻿Console.WriteLine("Initial array");
-int[] array = { 39, 39, 28, 58, 13, 52, 33, 7, 76, 91, 48, 21, 19, 18, 9, 12, 14, 90, 82 };
-foreach (int item in array)
+﻿using System;
+
+class Program
 {
-    Console.Write($"{item} ");
-}
-//----------------------------------
-Strategy context = new BubbleSort();
-context.Sort(array);
-context.PrintArray(array);
-//----------------------------------
-context = new SelectionSort();
-context.Sort(array);
-context.PrintArray(array);
-//----------------------------------
-context = new InsertionSort();
-context.Sort(array);
-context.PrintArray(array);
-
-abstract class Strategy
-{
-
-    public abstract void Sort(int[] array);
-
-    public void PrintArray(int[] array)
-
+    static void Main(string[] args)
     {
-        for (int i = 0; i < array.Length; i++)
-            Console.Write(array[i] + " ");
-        Console.WriteLine();
+        Console.WriteLine("Initial array");
+        int[] array = { 39, 39, 28, 58, 13, 52, 33, 7, 76, 91, 48, 21, 19, 18, 9, 12, 14, 90, 82 };
 
+        foreach (int item in array) { Console.Write(item + " "); }
+
+        Console.WriteLine("\n");
+        AbstractSort bubbleSort = new BubbleSort();
+        bubbleSort.Sort(array);
+
+        Console.WriteLine();
+        AbstractSort selectionSort = new SelectionSort();
+        selectionSort.Sort(array);
+
+        Console.WriteLine();
+        AbstractSort insertionSort = new InsertionSort();
+        insertionSort.Sort(array);
+
+        Console.ReadLine();
     }
 }
-class BubbleSort : Strategy
+
+abstract class AbstractSort
 {
-    public override void Sort(int[] array)
+    public void Sort(int[] array)
     {
-        Console.WriteLine("\n\nBubbleSort");
+        Console.WriteLine(GetSortName());
+        PerformSort(array);
+        PrintArray(array);
+    }
+
+    protected abstract string GetSortName();
+    protected abstract void PerformSort(int[] array);
+
+    protected void PrintArray(int[] array)
+    {
+        foreach (int item in array)
+        {
+            Console.Write($"{item} ");
+        }
+        Console.WriteLine();
+    }
+}
+
+class BubbleSort : AbstractSort
+{
+    protected override string GetSortName()
+    {
+        return "BubbleSort";
+    }
+
+    protected override void PerformSort(int[] array)
+    {
         for (int i = 0; i < array.Length; i++)
         {
             for (int j = array.Length - 1; j > i; j--)
@@ -50,17 +70,22 @@ class BubbleSort : Strategy
         }
     }
 }
-class SelectionSort : Strategy
+
+class SelectionSort : AbstractSort
 {
-    public override void Sort(int[] array)
+    protected override string GetSortName()
     {
-        Console.WriteLine("\nSelectionSort");
+        return "SelectionSort";
+    }
+
+    protected override void PerformSort(int[] array)
+    {
         for (int i = 0; i < array.Length - 1; i++)
         {
             int k = i;
             for (int j = i + 1; j < array.Length; j++)
                 if (array[k] > array[j]) { k = j; }
-                    
+
             if (k != i)
             {
                 int temp = array[k];
@@ -70,11 +95,16 @@ class SelectionSort : Strategy
         }
     }
 }
-class InsertionSort : Strategy
+
+class InsertionSort : AbstractSort
 {
-    public override void Sort(int[] array)
+    protected override string GetSortName()
     {
-        Console.WriteLine("\nInsertionSort");
+        return "InsertionSort";
+    }
+
+    protected override void PerformSort(int[] array)
+    {
         for (int i = 1; i < array.Length; i++)
         {
             int j = 0;
